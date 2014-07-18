@@ -1,5 +1,6 @@
 relative_permalinks: false
 baseurl: /mulu-api
+markdown: kramdown
 exclude:
   - Gemfile
   - Gemfile.lock

@@ -23,6 +23,6 @@ parameters **MUST** be urlencoded.
 
 ### Request Parameters
 
-Name   | Required? | Description
-----   | --------- | -----------
-apiKey | Yes       | Api Key provided to you as part of your account setup
+| Name | Required? | Description |
+|:---+:---+:---|
+| apiKey | Yes | Api Key provided to you as part of your account setup |
