@@ -1,0 +1,5 @@
+relative_permalinks: false
+baseurl: /mulu-api
+exclude:
+  - Gemfile
+  - Gemfile.lock
