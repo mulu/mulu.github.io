@@ -119,7 +119,7 @@ parameters **MUST** be urlencoded.
 | productUrl | A text or HTML description of the product, as provided by the product source |
 | manufacturer | The product’s manufacturer or brand, as provided by the product source |
 | offerId | The ID for the product from the product source |
-| type |  |
+| type | Internal high level categorization of the product |
 
 #### Document Field definitions<a name="docFields"> </a>
 
