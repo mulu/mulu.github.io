@@ -40,3 +40,90 @@ parameters **MUST** be urlencoded.
 3. minimumConfidence is set to a default value if not provided<a name="reqParam3"> </a>
 4. sources are set to the sources to which the apiKey is configured to have access by default<a name="reqParam4"> </a>
 
+## Response
+
+### Example Response
+
+
+    [
+      {
+        "id": "urn:x-mulu-match:bmV3IGJlc3QgZnJpZW5",
+        "product": {
+          "id": "",
+          "productName": "Name of the product",
+          "merchantName": "SOME MERCHANT",
+          "productPrice": "$99.99",
+          "priceUnit": "USD",
+          "productSource": "SOME_PRODUCT_SOURCE",
+          "imageUrl": "http://some.domain.com/where/an/image/of/the/product/is/available.png",
+          "category": "Widgets",
+          "upc": "",
+          "productUrl": "http://some.domain.com/where/you/can/buy/a/widget",
+          "description": "A description of the product",
+          "manufacturer": "The manufacturer or brand of the product",
+          "offerId": "The ID for the product from the product source",
+          "type": "PRODUCT"
+        },
+        "document": {
+          "url": "http://the.publisher.com/the/url/where/the/product/is/mentioned",
+          "publisher": "publisher's ID"
+        },
+        "percentTermsMatched": "50.0",
+        "percentProductWordsMatched": "50.0",
+        "excerpt": "An excerpt from the publication where the match is located, consists of several sentences, both before and after the text of the match",
+        "ngram": "The words used to match the product, with extraneous words removed and the words stemmed",
+        "diceIndex": "0.50",
+        "dateCrawled": "2014-01-11T00:00:00.000-07:00",
+        "sentence": "The specific sentence from the publication where the product is mentioned.",
+        "categoryConfidence": "0.0",
+        "aggregateConfidence": "0.50",
+        "brandConfidence": "0.0",
+        "originalMatchText": "The specific portion of the sentence where the product is mentioned"
+      },
+      ...
+    ]
+
+#### Match Field definitions
+
+| Field | Description |
+|:---+:---|
+| id | Internal unique identifier for a match in the mulu system |
+| [product](#prodFields) | Json object representation of the product matched |
+| [document](#docFields) | Json object representation of the document where the product was matched |
+| percentTermsMatched | the percentage of the pertinent words from the document found in the product name |
+| percentProductWordsMatched | the percentage of the pertinent words from the product name found in the document |
+| excerpt | An excerpt from the publication where the match is located, consists of several sentences, both before and after the text of the match |
+| ngram | The words used to match the product, with extraneous words removed and the words [stemmed](http://en.wikipedia.org/wiki/Stemming) |
+| diceIndex | A measure of how lexically similar the Product Name and ngram are |
+| dateCrawled | The date on which this match was last detected in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format |
+| sentence | The specific sentence from the publication where the product is mentioned |
+| categoryConfidence | A measure of confidence based on the ratios of the categories of products found in the document |
+| aggregateConfidence | An aggregation of other confidence measures |
+| brandConfidence | A measure of confidence based on the presence of the brand name for the product in the sentence and the likelihood that the brand would appear in normal language |
+| originalMatchText | The specific portion of the sentence where the product is mentioned |
+
+#### Product Field definitions<a name="prodFields"> </a>
+
+| Field | Description |
+|:---+:---|
+| id | Internal unique identifier for a product |
+| productName | Name of the product |
+| merchantName | Name of the merchant offering the product |
+| productPrice | Price of the product (may or may not include currency indicator such as $) |
+| priceUnit | Currency and Unit for the price listing |
+| productSource | Identifier for the source of the product information |
+| imageUrl | Url at which an image of the product can be found |
+| category | The category the product is in, as provided by the product source |
+| upc | Universal Price Code, as provided by the product source |
+| productUrl | A URL at which the product can be purchased |
+| productUrl | A text or HTML description of the product, as provided by the product source |
+| manufacturer | The product’s manufacturer or brand, as provided by the product source |
+| offerId | The ID for the product from the product source |
+| type |  |
+
+#### Document Field definitions<a name="docFields"> </a>
+
+| Field | Description |
+|:---+:---|
+| url | Url of the document where the match was found |
+| publisher | Identifier for the publisher of the document |
