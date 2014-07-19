@@ -35,7 +35,7 @@ parameters **MUST** be urlencoded.
 | source | No &#91;[4](#reqParam4)&#93; | A source from which the offers are selected. (use multiple times to support multiple sources) |
 | category | No | A category to which the product matched must belong as defined by the product's source |
 
-1. At least one of UrlPrefix or ProductName must be provided<a name="reqParam1"> </a>
+1. At least one of urlPrefix, offer, or productName must be provided<a name="reqParam1"> </a>
 2. crawledAfter is required in order for crawledBefore to function<a name="reqParam2"> </a>
 3. minimumConfidence is set to a default value if not provided<a name="reqParam3"> </a>
 4. sources are set to the sources to which the apiKey is configured to have access by default<a name="reqParam4"> </a>
