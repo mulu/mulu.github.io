@@ -127,3 +127,33 @@ parameters **MUST** be urlencoded.
 |:---+:---|
 | url | Url of the document where the match was found |
 | publisher | Identifier for the publisher of the document |
+
+
+## Example Requests
+
+The following are some example requests using this API  (example url parameters remain un-encoded for legibility)
+
+#### Fetch all matches for a given article with a confidence greater than the default
+
+    GET v1/matches?apiKey=AAAA-9999-AAAA-9999&urlPrefix=http://www.magazine.com/article
+
+#### Fetch all matches for a given article with a confidence greater than 0.5
+
+    GET v1/matches?apiKey=AAAA-9999-AAAA-9999&urlPrefix=http://www.magazine.com/article&minimumConfidence=0.5
+
+#### Fetch all matches for a given article where the products are in the Cosmetics category
+
+    GET v1/matches?apiKey=AAAA-9999-AAAA-9999&urlPrefix=http://www.magazine.com/article&category=Cosmetics
+
+#### Fetch all matches for a given article where the products are in the Cosmetics or Personal Care categories
+
+    GET v1/matches?apiKey=AAAA-9999-AAAA-9999&urlPrefix=http://www.magazine.com/article&category=Cosmetics&category=Personal Care
+
+#### Fetch all matches for the product identified by it's source as PRODUCTID004
+
+    GET v1/matches?apiKey=AAAA-9999-AAAA-9999&offer=PRODUCTID004
+
+#### Fetch all matches or the product identified by it's source as PRODUCTID004 from the magazine.com domain
+
+    GET v1/matches?apiKey=AAAA-9999-AAAA-9999&offer=PRODUCTID004&urlPrefix=http://www.magazine.com/
+
