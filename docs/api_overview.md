@@ -39,3 +39,4 @@ parameters **MUST** be urlencoded.
 2. crawledAfter is required in order for crawledBefore to function<a name="reqParam2"> </a>
 3. minimumConfidence is set to a default value if not provided<a name="reqParam3"> </a>
 4. sources are set to the sources to which the apiKey is configured to have access by default<a name="reqParam4"> </a>
+
