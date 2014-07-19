@@ -29,8 +29,8 @@ parameters **MUST** be urlencoded.
 | urlPrefix | Yes &#91;[1](#reqParam1)&#93; | A string prefix which the urls of matches must match. The prefix must be on a directory boundary<br>(i.e. `http://magazine.com/category/` not `http://magazine.com/categ`) |
 | productName | Yes &#91;[1](#reqParam1)&#93; | A String of words which the product name from matches must be similar to.<br>**(Note: this is being deprecated in favor of offer IDs)** |
 | offer | Yes &#91;[1](#reqParam1)&#93; | A String representing the source's identifier for this product. Can be provided multiple times to search for multiple products. |
-| crawledAfter | No &#91;[2](#reqParam2)&#93; | A date/time in ISO8601 format which the match must have been found on or after<br>(i.e. `2014-02-19T00:00:00.0+00:00`) |
-| crawledBefore | No | A date/time in ISO8601 format which the match must have been found on or before<br>(i.e. `2014-02-19T00:00:00.0+00:00`) |
+| crawledAfter | No &#91;[2](#reqParam2)&#93; | A date/time in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format which the match must have been found on or after<br>(i.e. `2014-02-19T00:00:00.0+00:00`) |
+| crawledBefore | No | A date/time in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format which the match must have been found on or before<br>(i.e. `2014-02-19T00:00:00.0+00:00`) |
 | minimumConfidence | No &#91;[3](#reqParam3)&#93; | A minimum confidence score the matches must meet |
 | source | No &#91;[4](#reqParam4)&#93; | A source from which the products are selected. (use multiple times to support multiple sources) |
 | category | No | A category to which the product matched must belong as defined by the product's source |
