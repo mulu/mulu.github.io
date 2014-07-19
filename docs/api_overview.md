@@ -153,6 +153,10 @@ The following are some example requests using this API  (example url parameters 
 
     GET v1/matches?apiKey=AAAA-9999-AAAA-9999&offer=PRODUCTID004
 
+#### Fetch all matches for products identified by it's source as either PRODUCTID004 of PRODUCTID005
+
+    GET v1/matches?apiKey=AAAA-9999-AAAA-9999&offer=PRODUCTID004&offer=PRODUCTID005
+
 #### Fetch all matches or the product identified by it's source as PRODUCTID004 from the magazine.com domain
 
     GET v1/matches?apiKey=AAAA-9999-AAAA-9999&offer=PRODUCTID004&urlPrefix=http://www.magazine.com/
