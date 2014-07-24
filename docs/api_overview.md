@@ -37,16 +37,18 @@ As you process search results, parse each Product Match to examine its confidenc
 | _category&nbsp;confidence_ | The confidence of the match based on the product category similarity with other matches on the same page of published content determined by URL. For example, suppose Mulu detects that a web page mentions 10 bicycles and 1 song name. The Product Matches for the bicycles have very high category confidence. The Product Matches for the song name would be a low category confidence.
 | _brand&nbsp;confidence_ | Confidence of the match based on (1) the presence of the brand name for the product in the sentence and (2) the likelihood that the brand would appear in normal language.
 
+
 ## Searching for Product Matches
 
-To search for product matches, submit an [HTTP&nbsp;GET](http://tools.ietf.org/html/rfc2616#section-9.3) request to the `api.mulu.me` domain for the `/v1/matches` resource. Add query string parameters for your account API key and search criteria. 
+To search for product matches, submit an [HTTP&nbsp;GET](http://tools.ietf.org/html/rfc2616#section-9.3) request to the server `api.mulu.me` and request the `/v1/matches` resource. Add query string parameters for your account API key and search criteria. 
 
-A simple Mulu API search using a URL prefix looks like the following:
-`http://api.mulu.me/v1/matches?apiKey=YOUR_API_KEY&urlPrefix=http://www.magazine.com/`
+A simple Mulu API search for product matches from `www.magazine.com` looks like the following:
+
+     http://api.mulu.me/v1/matches?apiKey=YOUR_API_KEY&urlPrefix=http://www.magazine.com/
 
 Parameter values typically contain characters not permitted in query string parameters, such as ampersand and spaces. You MUST use [URL encoding](http://tools.ietf.org/html/rfc3986#section-2.1) for query string parameters. 
 
-### Specifying Request Parameters
+### Request Parameters
 
 Provide the `apiKey` parameter and at least one other search parameter. Provide at least one of the following: `urlPrefix` or `offer`.
 
@@ -59,8 +61,8 @@ Provide the `apiKey` parameter and at least one other search parameter. Provide 
 | `crawledAfter` | No &#91;[2](#reqParam2)&#93; | Date/time in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format. Specify this parameter to limit results only to matches found on or after this date. You must include the time zone information. For example, `2014-02-19T00:00:00.0+00:00`. If you use the crawledBefore parameter, you must also specify crawledAfter.|
 | `crawledBefore` | No | Date/time in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format. Specify this parameter to limit results only to matches found on or before this date. You must include the time zone information. For example, `2014-02-19T00:00:00.0+00:00`. If you use the crawledBefore parameter, you must also specify crawledAfter. |
 | `minimumConfidence` | No | A minimum confidence value for any matches, as a floating point number from 0 to 1. To get more results from the Mulu API, specify a lower `minimumConfidence` value. If unspecified, the default is 0.8, which represents 80% confident of a match.  |
-| `source` | No | Specify `source` to limit results only a specific product sources. To search multiple sources, provide the `source` parameter multiple times in your search query string. If `source` is unspecified, Mulu API searches the default set of sources for your Mulu Account API key. If you provide multiple sources and also provide the `offer` parameter, the `offer` ID could potentially match results from multiple sources. However, that edge case is uncommon in practice due to different offer ID styles from product sources.|
-| `category` | No | String. Specify a required product category as defined by the product source. For example, Amazon includes categories such as `Clothing` and `Beauty`. If unspecified, will match all product categories. |
+| `source` | No | Specify `source` to limit results only a specific product source name. Source names are case-sensitive. For example, for Amazon you must type `AMAZON`. To search multiple sources, provide the `source` parameter multiple times in your search query string. If `source` is unspecified, Mulu API searches the default set of sources for your Mulu Account API key. (Note: If you provide multiple sources and also provide the `offer` parameter, the `offer` ID could potentially match results from multiple sources. In practice, this is unlikely because product sources generally use different style IDs.) |
+| `category` | No | String. Specify a required product category as defined by the product source. For example, `Clothing` or `Beauty`. If unspecified, will match all product categories. |
 
 1. Provide at least one of the following: `urlPrefix` or `offer`.<a name="reqParam1"> </a>
 2. crawledAfter is required in order for crawledBefore to function<a name="reqParam2"> </a>
@@ -114,45 +116,45 @@ The following JSON describes an example match for a red stained glass lamp, sold
 | Field | Description |
 |:---+:---+:---|
 | `id` | Internal unique identifier for a match in the Mulu system |
-| 'product' | JSON object representation of the product matched. See [the Product Field section]#prodFields |
-| `document` [document](#docFields)) | JSON object representation of the document where the product was matched |
-| percentTermsMatched | the percentage of the pertinent words from the document found in the product name |
-| percentProductWordsMatched | the percentage of the pertinent words from the product name found in the document |
-| excerpt | The published content excerpt where Mulu found a Product Match. The excerpt consists of several sentences, both before and after the text of the match. This is the longest of data fields with data from the published content |
-| ngram | The words used to match the product, with extraneous words removed and the words [stemmed](http://en.wikipedia.org/wiki/Stemming) |
-| dateCrawled | The date on which this match was last detected in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format |
-| originalMatchText | The part of the published content sentence that mentions the product |
-| sentence | The published content sentence that mentions the product |
-| aggregateConfidence | Overall confidence based on other confidence values, , as a floating point number from 0 to 1. See [Confidence Levels](#confidencelevels)|
-| diceIndex | Dice index value, the lexical similarity of the product name and matched words on the published site. See [Confidence Levels](#confidencelevels)|
-| categoryConfidence | Category confidence value, as a floating point number from 0 to 1. See [Confidence Levels](#confidencelevels) |
-| brandConfidence | Brand confidence value, as a floating point number from 0 to 1. See [Confidence Levels](#confidencelevels)|
+| `product` | JSON object representation of the product matched. See [the Product Field section]#prodFields |
+| `document` [document](#docFields)) | JSON object representation of the document where Mulu matched the product |
+| `percentTermsMatched` | The percentage of the pertinent words from the document that Mulu found in the product name |
+| `percentProductWordsMatched` | The percentage of pertinent words from the product name found in the document |
+| `excerpt` | The published content excerpt where Mulu found a Product Match. The excerpt consists of several sentences, both before and after the text of the match. This is the longest of data fields with data from the published content |
+| `ngram` | The words used to match the product, with extraneous words removed and the words [stemmed](http://en.wikipedia.org/wiki/Stemming) |
+| `dateCrawled` | The date on which this match was last detected in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format |
+| `originalMatchText` | The part of the published content sentence that mentions the product |
+| `sentence` | The published content sentence that mentions the product |
+| `aggregateConfidence` | Overall confidence based on other confidence values, , as a floating point number from 0 to 1. See [Confidence Levels](#confidencelevels)|
+| `diceIndex` | Dice index value, the lexical similarity of the product name and matched words on the published site. See [Confidence Levels](#confidencelevels)|
+| `categoryConfidence` | Category confidence value, as a floating point number from 0 to 1. See [Confidence Levels](#confidencelevels) |
+| `brandConfidence` | Brand confidence value, as a floating point number from 0 to 1. See [Confidence Levels](#confidencelevels)|
 
 #### Product Field definitions<a name="prodFields"> </a>
 
 | Field | Description |
 |:---+:---|
-| id | Internal unique identifier for a product |
-| productName | Name of the product |
-| merchantName | Name of the merchant offering the product. The merchant name might not be the same as the product source. For example, Amazon sells some products directly, but the Amazon product source also provides product offers from partners and affiliates. Note that the product affiliates and |
-| productPrice | Price of the product (may or may not include currency indicator such as $) |
-| priceUnit | Currency and Unit for the price listing |
-| productSource | Identifier for the source of the product information |
-| imageUrl | Url at which an image of the product can be found |
-| category | The category the product is in, as provided by the product source |
-| upc | Universal Price Code, as provided by the product source |
-| productUrl | A URL at which the product can be purchased |
-| description | A text or HTML description of the product, as provided by the product source |
-| manufacturer | The product’s manufacturer or brand, as provided by the product source |
-| offerId | The ID for the product from the product source |
-| type | The product's Mulu Category Code. Current values are `PRODUCT` (non-music product), `SONG` (a song), `ALBUM` (an album), `ARTIST` (a music artist). |
+| `id` | _Internal Mulu use only. Do not store or rely on this value._ |
+| `productName` | Name of the product |
+| `merchantName` | Name of the merchant that offers the product. The merchant name is not always the same as the name of the product source. For example, Amazon sells some products directly, but the Amazon also provides product offers from partners and affiliates. |
+| `productPrice` | The price of the product, as a String value as provided by the product source data. The price may or may not include currency indicator such as $, before or after the number. For example, "$45.06" |
+| `priceUnit` | Currency code for the price listing, as defined by [ISO&nbsp;4217](https://en.wikipedia.org/wiki/ISO_4217). For example, for US Dollars the value is `USD`. |
+| `productSource` | Identifier for the source of the product information. For example, for Amazon the value is "AMAZON". |
+| `imageUrl` | Url at which an image of the product can be found |
+| `category` | The category the product is in, as provided by the product source |
+| `upc` | Universal Price Code, as provided by the product source |
+| `productUrl` | A URL at which the product can be purchased |
+| `description` | A text or HTML description of the product, as provided by the product source |
+| `manufacturer` | The product’s manufacturer or brand, as provided by the product source |
+| `offerId` | The ID for the product from the product source |
+| `type` | The product's Mulu Category Code. Current values are `PRODUCT` (non-music product), `SONG` (a song), `ALBUM` (an album), `ARTIST` (a music artist). |
 
 #### Document Field definitions<a name="docFields"> </a>
 
 | Field | Description |
 |:---+:---|
-| url | Url of the document where the match was found |
-| publisher | Identifier for the publisher of the document |
+| `url` | The URL of the published document where the match was found |
+| `publisher` | Publisher ID for the matched document. The Publisher ID is the domain name not including the top level domain or subdomains. For example, if the matched document is on www1.mycompany.com, the publisher ID is mycompany. |
 
 
 ## Example Requests
