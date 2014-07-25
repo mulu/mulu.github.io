@@ -205,12 +205,12 @@ The following table describes the format of a Match JSON object. The result of a
 | `id` | _Internal Mulu use only. Never store or rely on this value._ |
 | `product` | _JSON object_. The JSON representation of the product matched. See [Product&nbsp;JSON](#prodFields)|
 | `document` | _JSON object_. The JSON representation of the document where Mulu matched the product. See  [Document&nbsp;JSON](#docFields). |
-| `percentTermsMatched` | _Floating point number from 0 to 100._ Percentage ratio between two numbers (1) percentage of the matched words in relation to the number of words in the  (see `ngram`). |
-| `percentProductWordsMatched` | _Floating point number from 0 to 100._ The percentage of the matched words from the document (see `ngram`) in relation to the number of words in the product name. |
 | `excerpt` | The published document excerpt where Mulu found a Product Match. The excerpt consists of several sentences before and after the product name. This is the longest data field with text from the published document. |
-| `ngram` | The words from the document that Mulu thinks refers to the product. Mulu removes extraneous words then converts the words to their root forms (a process called [stemming](http://en.wikipedia.org/wiki/Stemming)). |
-| `dateCrawled` | _Date in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format_. The most recent date Mulu confirmed this match. |
 | `originalMatchText` | The part of the published document sentence that mentions the product. |
+| `ngram` | The subset of the `originalMatchText` words from the document that Mulu thinks refers to the product. Mulu removes extraneous words then converts the words to their root forms (a process called [stemming](http://en.wikipedia.org/wiki/Stemming)). Not all words may match the product name -- see `percentTermsMatched` and `percentProductWordsMatched`. |
+| `percentTermsMatched` | _Floating point number from 0 to 100._ Percentage indicating ratio between two numbers: (1) number of matched words (2) number of words in the `ngram` field. |
+| `percentProductWordsMatched` | _Floating point number from 0 to 100._ Percentage indicating ratio between two numbers: (1) number of matched words (2) number of words in the product name after removing extraneous words.  |
+| `dateCrawled` | _Date in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format_. The most recent date Mulu confirmed this match. |
 | `sentence` | The published document sentence that mentions the product. |
 | `aggregateConfidence` |  _Floating point number from 0 to 1._ Overall confidence based on other confidence values. This is the main confidence value, and it corresponds to the search query parameter `minimumConfidence`. See [Confidence&nbsp;Levels](#confidencelevels).|
 | `diceIndex` | _Floating point number from 0 to 1._  Dice index for the match, which is the lexical similarity of (1) the product name and (2) matched words returned in the `ngram` field . See [Confidence&nbsp;Levels](#confidencelevels).|
