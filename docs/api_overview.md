@@ -6,7 +6,7 @@ permalink: /docs/match_search_api.html
  
 ## Overview
 
-The Mulu REST API identifies mentions of products sold by the online retailers such as Amazon, EBay, Overstock, Popsugar, and iTunes in a published document such as a web site or social media post.
+The Mulu REST API identifies mentions of products sold by online retailers such as Amazon, EBay, Overstock, Popsugar, and iTunes in a published document such as a web site or social media post.
 
 This API reference uses the following definitions:
 
@@ -54,13 +54,13 @@ Provide the `apiKey` parameter and at least one other search parameter. All fiel
 | Name | Required?&nbsp;&nbsp; | Description |
 |:---+:---+:---|
 | `apiKey` | Required | Your Mulu Account API key. To set up a new Mulu account, [contact us](http://mulu.me/contact). |
-| `urlPrefix` | Provide at least one of `urlPrefix` or `offer` | String. The prefix (first characters) of publisher URLs that you want to match. For HTTP URLs, the URL prefix text must begin with `http://`. The prefix must be on a directory (slash) boundary. If a slash character is not the last character of the `urlPrefix`, a final slash is implicit. For example, to match the URL `http://magazine.com/category/mypage`, pass the `urlPrefix` value `http://magazine.com/category` or `http://magazine.com/category/`. In contrast, the URL prefix `http://magazine.com/categ` does _not_ match that URL. |
+| `urlPrefix` | Provide at least one of `urlPrefix` or `offer` | The prefix (first characters) of publisher URLs that you want to match. For HTTP URLs, the URL prefix text must begin with `http://`. The prefix must be on a directory (slash) boundary. If a slash character is not the last character of the `urlPrefix`, a final slash is implicit. For example, to match the URL `http://magazine.com/category/mypage`, pass the `urlPrefix` value `http://magazine.com/category` or `http://magazine.com/category/`. In contrast, the URL prefix `http://magazine.com/categ` does _not_ match that URL. |
 | `offer` | Provide at least one of `urlPrefix` or `offer` | A unique ID for one product or offer as specified by its product source. For example, specify an Amazon Standard Identification Number ([ASIN](https://en.wikipedia.org/wiki/Amazon_Standard_Identification_Number)) . To search for multiple products, provide the `offer` parameter multiple times in your search query string. |
 | `crawledAfter` | Required if you specify `crawledBefore` | Date/time in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format. Specify this parameter to limit results only to matches found on or after this date. You must include the time zone information. For example, `2014-02-19T00:00:00.0+00:00`. If you set the `crawledBefore` parameter, you must also set `crawledAfter`.|
 | `crawledBefore` | Optional | Date/time in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format. Specify this parameter to limit results only to matches found on or before this date. You must include the time zone information. For example, `2014-02-19T00:00:00.0+00:00`. If you set the `crawledBefore` parameter, you must also set `crawledAfter`. |
-| `minimumConfidence` | Optional | Floating point number from 0 to 1. Specifiy a minimum confidence value for any matches. To get more results from the Mulu API, specify a lower `minimumConfidence` value. If unspecified, the default is 0.8, which means 80% confidence of a match. This corresponds to the _aggregate confidence level_ field in Match JSON. [Confidence&nbsp;Levels](#confidencelevels). |
+| `minimumConfidence` | Optional | Floating point number from 0 to 1. Specifiy a minimum confidence value for any matches. To get more results from the Mulu API, specify a lower `minimumConfidence` value. If unspecified, the default is 0.8, which means 80% confidence of a match. This corresponds to the _aggregate confidence level_ field in Match JSON. See [Confidence&nbsp;Levels](#confidencelevels). |
 | `source` | Optional | Specify a Mulu product source ID to limit results only a specific product source name. Source names are case-sensitive. For example, for Amazon results set to `AMAZON`. To search multiple sources, provide the `source` parameter multiple times in your search query string. If `source` is unspecified, Mulu API searches the default set of product sources for your Mulu Account API key.  If you provide multiple sources and also provide the `offer` parameter, the `offer` ID could potentially match results from multiple sources. In practice, duplicates are unlikely because product sources use different syntax for offer&nbsp;IDs. |
-| `category` | Optional | Specify a required product category as defined by the product source. For example, `Clothing` or `Beauty`. If unspecified, will match all product categories. |
+| `category` | Optional | Specify a required product category as defined by the product source. For example, `Clothing` or `Beauty`. If unspecified, matches all product categories. |
 
 
 ## Example Search Requests
@@ -147,6 +147,7 @@ Return matches for the product offer `SKU123` from product source `MYSTORE` only
 
     GET v1/matches?apiKey=DemoAPIKey
                   &offer=SKU123
+                  &source=MYSTORE
                   &crawledBefore=2014-01-01T00:00:00.000-07:00
                   &crawledBefore=2014-07-01T00:00:00.000-07:00
 
@@ -226,7 +227,7 @@ The following table describes the format of a Product JSON object, which is incl
 | `id` | yes | _Internal Mulu use only. Never store or rely on this value._ |
 | `productName` | yes | Name of the product. |
 | `productUrl` | yes | A URL to purchase the product. This URL is not necessarily on the same domain as the data source or the merchant (see `merchantName`). |
-| `offerId` | typically, but not always (see&nbsp;note)| A product's unique product or offer ID specific to this a product source. For example, an Amazon Standard Identification Number ([ASIN](https://en.wikipedia.org/wiki/Amazon_Standard_Identification_Number)). Note: For nearly all cases, `offerId` is populated but for rare cases a retailer includes a `productUrl` but no `offerID`. |
+| `offerId` | typically, but not always (see&nbsp;note)| A product's unique product or offer ID specific to this product source. For example, an Amazon Standard Identification Number ([ASIN](https://en.wikipedia.org/wiki/Amazon_Standard_Identification_Number)). Note: For nearly all cases, `offerId` is populated but for rare cases a retailer includes a `productUrl` but no `offerID`. |
 | `type` | yes | The product's Mulu Category Code as determined by Mulu. Possible values are `SONG` (a song), `ALBUM` (an album), `ARTIST` (a music artist), and `PRODUCT` (non-music product). |
 | `merchantName` | no | Name of the merchant that offers the product. The merchant name is not always the same as the name of the product source. For example, Amazon sells some products directly, but Amazon also provides product offers from partners and affiliates.|
 | `productPrice` | no | Price of the product, as a text value as formatted by the product source. The price may or may not include currency indicator such as $, before or after the number. For example, "$45.06". Also see `priceUnit`. |
