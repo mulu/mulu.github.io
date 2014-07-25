@@ -148,7 +148,7 @@ Return matches for the product offer `SKU123` from product source `MYSTORE` only
     GET v1/matches?apiKey=DemoAPIKey
                   &offer=SKU123
                   &source=MYSTORE
-                  &crawledBefore=2014-01-01T00:00:00.000-07:00
+                  &crawledAfter=2014-01-01T00:00:00.000-07:00
                   &crawledBefore=2014-07-01T00:00:00.000-07:00
 
 Remember that for real queries you must use [URL&nbsp;encoding](http://tools.ietf.org/html/rfc3986#section-2.1) for query string parameters.
