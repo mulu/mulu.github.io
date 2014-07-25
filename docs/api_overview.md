@@ -6,9 +6,7 @@ permalink: /docs/match_search_api.html
  
 ## Overview
 
-Mulu analyzes text on the Internet to find references to products sold by the largest online retailers such as Amazon, EBay, Overstock, Popsugar, and iTunes. The Mulu API finds and returns Mulu Product Matches. Each Mulu Product Match identifies a product mention on a review site, magazine, social media, or other high-value publication. Either the publisher or the retailer can use the search results to add commerce links or target advertising.
-
-For example, suppose a magazine mentions a lamp from a specific manufacturer in a review. Mulu detects which retailers sell that specific lamp. Online retailers who sell the lamp can add links to the magazine product review. Publishers can use the Mulu API to adds commerce links. Social media sites can search its users' posts to build profiles for targeted advertising.
+The Mulu REST API identifies mentions of products sold by the online retailers such as Amazon, EBay, Overstock, Popsugar, and iTunes in a published document such as a web site or social media post.
 
 This API reference uses the following definitions:
 
@@ -207,8 +205,8 @@ The following table describes the format of a Match JSON object. The result of a
 | `id` | _Internal Mulu use only. Never store or rely on this value._ |
 | `product` | _JSON object_. The JSON representation of the product matched. See [Product&nbsp;JSON](#prodFields)|
 | `document` | _JSON object_. The JSON representation of the document where Mulu matched the product. See  [Document&nbsp;JSON](#docFields). |
-| `percentTermsMatched` | _Floating point number from 0 to 100._ The percentage of the relevant words from the document that Mulu found in the product name. |
-| `percentProductWordsMatched` | _Floating point number from 0 to 100._ The percentage of relevant words from the product name found in the document. |
+| `percentTermsMatched` | _Floating point number from 0 to 100._ Percentage ratio between two numbers (1) percentage of the matched words in relation to the number of words in the  (see `ngram`). |
+| `percentProductWordsMatched` | _Floating point number from 0 to 100._ The percentage of the matched words from the document (see `ngram`) in relation to the number of words in the product name. |
 | `excerpt` | The published document excerpt where Mulu found a Product Match. The excerpt consists of several sentences before and after the product name. This is the longest data field with text from the published document. |
 | `ngram` | The words from the document that Mulu thinks refers to the product. Mulu removes extraneous words then converts the words to their root forms (a process called [stemming](http://en.wikipedia.org/wiki/Stemming)). |
 | `dateCrawled` | _Date in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format_. The most recent date Mulu confirmed this match. |
