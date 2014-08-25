@@ -1,7 +1,7 @@
 ---
 layout: docs
 title: Api Overview
-permalink: /docs/match_search_api.html
+permalink: /
 ---
  
 ## Overview
