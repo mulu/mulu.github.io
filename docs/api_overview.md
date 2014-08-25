@@ -6,7 +6,18 @@ permalink: /docs/match_search_api.html
  
 ## Overview
 
-The Mulu REST API identifies mentions of products sold by online retailers such as Amazon, EBay, Overstock, Popsugar, and iTunes in a published document such as a web site or social media post.
+The Mulu REST API identifies mentions of products sold by online retailers such as Amazon, EBay,
+Overstock, Popsugar, and iTunes in a published document such as a web site or social media post.
+
+The Mulu API is a REST API, which means that it is a language-neutral API that you can integrate
+with your application. You can also test your queries easily in any web browser as standard HTTP
+URLs.
+
+The Mulu API returns product matches as a [JSON](http://tools.ietf.org/html/rfc7159) array.  Each
+array element is a JSON object that represents a product match. If multiple product sources sell
+the same product, the results include an array element for every product match. In other words,
+every product match element pairs one instance of published document with an offer from a product
+source. If a query identifies no product matches, the API returns a JSON array with zero items.
 
 This API reference uses the following definitions:
 
@@ -16,17 +27,22 @@ This API reference uses the following definitions:
 * _published document_ - one web page or other document with a unique URL
 * _product match_ - a mention of a product in published document
 
-The Mulu API is a REST API, which means that it is a language-neutral API that you can integrate with any server. Specify your search criteria as query string parameters on a standard HTTP GET request. You can test your queries easily in any web browser as standard HTTP URLs.
-
-The Mulu API returns Mulu Product Matches as a [JSON](http://tools.ietf.org/html/rfc7159) array. Each array element is a JSON object that represents a Mulu Product Match. If multiple product sources sell the same product, the results include an array element for every Product Match. In other words, every Product Match element pairs one instance of published document with an offer from a product source. If a query identifies no Product Matches, the API returns a JSON array with zero items.
-
 ####<a name="confidencelevels"></a>Confidence Levels
 
-The Mulu linguistic engine generates an associated confidence level from 0% to 100% for each Product Match. A 100% confidence match represents strong confidence that the product reference really represents the product represented by a specific offer ID from a specific product source. In the Mulu API, all confidence levels are floating point numbers from 0 to 1 (not 100).
+The Mulu API returns an associated confidence level for each product match. A higher confidence
+level represents strong confidence that the product reference really represents the product
+represented by a specific offer ID from a specific product source. In the Mulu API, all confidence
+levels are floating point numbers from 0 to 1 with 1 being the highest possible score.
 
-When searching for product matches, optionally specify a _minimum confidence level_ for results. Depending on your situation, you might want to search for Mulu Product Matches with a high minimum confidence level or a low minimum confidence level. For more results, set the minimum confidence level close to 0.
+When searching for product matches, optionally specify a _minimum confidence level_ for results.
+Depending on your situation, you might want to search for product matches with a high minimum
+confidence level or a low minimum confidence level. For more results, set the minimum confidence
+level close to 0.
 
-As you process search results, parse each Product Match to examine its _aggregate confidence level_, which is the overall confidence of the match. Product Match results also provide additional confidence level fields for advanced use. The following table compares the confidence level fields in results.
+As you process search results, parse each product match to examine its _aggregate confidence
+level_, which is the overall confidence of the match. Product Match results also provide additional
+confidence level fields for advanced use. The following table compares the confidence level fields
+in results.
 
 | Result Field | Description |
 |:---+:---|
@@ -38,17 +54,24 @@ As you process search results, parse each Product Match to examine its _aggregat
 
 ## Searching for Product Matches
 
-To search for product matches, submit an [HTTP&nbsp;GET](http://tools.ietf.org/html/rfc2616#section-9.3) request to the server `api.mulu.me` and request the `/v1/matches` resource. The operation `/v1/matches` is the only REST API operation in the Mulu&nbsp;API&nbsp;v1. Add query string parameters for your account API key and one or more search criteria.
+To search for product matches, submit an
+[HTTP&nbsp;GET](http://tools.ietf.org/html/rfc2616#section-9.3) request to the server `api.mulu.me`
+and request the `/v1/matches` resource. The operation `/v1/matches` is the only REST API operation
+in the Mulu&nbsp;API&nbsp;v1. Add query string parameters for your account API key and one or more
+search criteria.
 
 For basic testing in a browser, format Mulu API searches as standard HTTP URLs:
 
      http://api.mulu.me/v1/matches?apiKey=APIKEY&urlPrefix=http://www.magazine.com/
 
-Parameter values typically contain characters not permitted in query string parameters, such as ampersand, spaces, and other special characters. It is a critical requirement that you must [URL&nbsp;encode](http://tools.ietf.org/html/rfc3986#section-2.1) all query string parameters. 
+Parameter values typically contain characters not permitted in query string parameters, such as
+ampersand, spaces, and other special characters. It is a critical requirement that you must
+[URL&nbsp;encode](http://tools.ietf.org/html/rfc3986#section-2.1) all query string parameters. 
 
 ###<a name="requestParams"></a>Request Parameters
 
-Provide the `apiKey` parameter and at least one other search parameter. All field types are text values unless otherwise specified.
+Provide the `apiKey` parameter and at least one other search parameter. All field types are text
+values unless otherwise specified.
 
 
 | Name | Required?&nbsp;&nbsp; | Description |
@@ -65,7 +88,10 @@ Provide the `apiKey` parameter and at least one other search parameter. All fiel
 
 ## Example Search Requests
 
-The following are some example Mulu API requests. To make it easier to read examples, demo queries are shown with newlines and without parameter URL encoding. For real queries you must use [URL&nbsp;encoding](http://tools.ietf.org/html/rfc3986#section-2.1) for all query string parameters.
+The following are some example Mulu API requests. To make it easier to read examples, demo queries
+are shown with newlines and without parameter URL encoding. For real queries you must use
+[URL&nbsp;encoding](http://tools.ietf.org/html/rfc3986#section-2.1) for all query string
+parameters.
 
 
 #### URL Prefixes
@@ -119,7 +145,8 @@ Return matches for the product offer `SKU123` from _any_ product source:
     GET v1/matches?apiKey=DemoAPIKey
                   &offer=SKU123
                   
-Note that in practice, the major retailers use different style offer IDs, so one offer ID tends to only match one store. However, you can specify a specific product source.
+Note that in practice, the major retailers use different style offer IDs, so one offer ID tends to
+only match one store. However, you can specify a specific product source.
 
 Return matches for the product offer `SKU123` from product source `MYSTORE`:
 
@@ -143,7 +170,8 @@ Return matches from a specific publisher for product `SKU123` from product sourc
 
 #### Date Searches
 
-Return matches for the product offer `SKU123` from product source `MYSTORE` only if confirmed between midnight January 1, 2014 and July 1, 2014 in a specific time zone:
+Return matches for the product offer `SKU123` from product source `MYSTORE` only if confirmed
+between midnight January 1, 2014 and July 1, 2014 in a specific time zone:
 
     GET v1/matches?apiKey=DemoAPIKey
                   &offer=SKU123
@@ -151,13 +179,15 @@ Return matches for the product offer `SKU123` from product source `MYSTORE` only
                   &crawledAfter=2014-01-01T00:00:00.000-07:00
                   &crawledBefore=2014-07-01T00:00:00.000-07:00
 
-Remember that for real queries you must use [URL&nbsp;encoding](http://tools.ietf.org/html/rfc3986#section-2.1) for query string parameters.
+Remember that for real queries you must use
+[URL&nbsp;encoding](http://tools.ietf.org/html/rfc3986#section-2.1) for query string parameters.
 
 ## Understanding the JSON Response
 
 ### Example Response
 
-The following JSON describes an example match for a red stained glass lamp, sold by online vendor LightingOnline, reviewed by magazine LampReviews.com.
+The following JSON describes an example match for a red stained glass lamp, sold by online vendor
+LightingOnline, reviewed by magazine LampReviews.com.
 
     [
       {
@@ -199,7 +229,9 @@ The following JSON describes an example match for a red stained glass lamp, sold
 
 #### Match JSON
 
-The following table describes the format of a Match JSON object. The result of a query is a JSON array of Match JSON objects, each describing one Mulu Product Match.  All field types are text values unless otherwise specified. All of the fields in a Match JSON object are always populated.
+The following table describes the format of a Match JSON object. The result of a query is a JSON
+array of Match JSON objects, each describing one Mulu Product Match.  All field types are text
+values unless otherwise specified. All of the fields in a Match JSON object are always populated.
 
 | Field | Description |
 |:---+:---+:---|
@@ -220,7 +252,10 @@ The following table describes the format of a Match JSON object. The result of a
 
 #### Product JSON<a name="prodFields"> </a>
 
-The following table describes the format of a Product JSON object, which is included in every Match JSON object. All field types are text values unless otherwise specified. All fields are provided and formatted by the product source data unless otherwise specified as provided by Mulu. All fields always exist as JSON fields but some may be unpopulated (see second column for details).
+The following table describes the format of a Product JSON object, which is included in every Match
+JSON object. All field types are text values unless otherwise specified. All fields are provided
+and formatted by the product source data unless otherwise specified as provided by Mulu. All fields
+always exist as JSON fields but some may be unpopulated (see second column for details).
 
 | Field | Always populated | Description |
 |:---+:---+:---|
@@ -260,7 +295,8 @@ For example:
 
 #### Document JSON<a name="docFields"></a>
 
-The following table describes the format of a Document JSON object, which is included in every Match JSON object. All field types are text values.
+The following table describes the format of a Document JSON object, which is included in every
+Match JSON object. All field types are text values.
 
 | Field | Description |
 |:---+:---|
@@ -273,4 +309,3 @@ For example:
           "url": "http://lampreviews.com/articles/best_red_lamps_of_2014",
           "publisher": "lampreviews"
         },
-
