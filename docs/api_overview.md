@@ -6,12 +6,12 @@ permalink: /
  
 ## Overview
 
-The Mulu REST API identifies mentions of products sold by online retailers such as Amazon, EBay,
+The Mulu API identifies mentions of products sold by online retailers such as Amazon, EBay,
 Overstock, Popsugar, and iTunes in a published document such as a web site or social media post.
 
-The Mulu API is a REST API, which means that it is a language-neutral API that you can integrate
-with your application. You can also test your queries easily in any web browser as standard HTTP
-URLs.
+The Mulu API is an HTTP-based API, which means that it is a language-neutral API that you can
+integrate with your application. You can also test your queries easily in any web browser as
+standard HTTP URLs.
 
 The Mulu API returns product matches as a [JSON](http://tools.ietf.org/html/rfc7159) array.  Each
 array element is a JSON object that represents a product match. If multiple product sources sell
@@ -56,8 +56,8 @@ in results.
 
 To search for product matches, submit an
 [HTTP&nbsp;GET](http://tools.ietf.org/html/rfc2616#section-9.3) request to the server `api.mulu.me`
-and request the `/v1/matches` resource. The operation `/v1/matches` is the only REST API operation
-in the Mulu&nbsp;API&nbsp;v1. Add query string parameters for your account API key and one or more
+and request the `/v1/matches` resource. The operation `/v1/matches` is the only API operation in
+the Mulu&nbsp;API&nbsp;v1. Add query string parameters for your account API key and one or more
 search criteria.
 
 For basic testing in a browser, format Mulu API searches as standard HTTP URLs:
