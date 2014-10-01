@@ -59,7 +59,7 @@ more search criteria.
 
 For basic testing in a browser, format Mulu API searches as standard HTTP URLs:
 
-    http://api.mulu.me/2/mention/search?apiKey=APIKEY&urlPrefix=http://www.example.com/
+    https://api.mulu.me/2/mention/search?apiKey=APIKEY&urlPrefix=http://www.example.com/
 
 Parameter values typically contain characters not permitted in query parameters, such as
 ampersand, spaces, and other special characters. You must
