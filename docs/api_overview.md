@@ -53,8 +53,8 @@ compares the score fields in results.
 ## Searching for Product Mentions
 
 To search for product mentions, submit an
-[HTTP&nbsp;GET](http://tools.ietf.org/html/rfc2616#section-9.3) request to the server `api.mulu.me`
-at the path `/2/mention/search`. Add query parameters to specify your account API key and one or
+[HTTP&nbsp;GET](http://tools.ietf.org/html/rfc2616#section-9.3) request to the endpoint URL
+`https://api.mulu.me/2/mention/search`. Add query parameters to specify your account API key and one or
 more search criteria.
 
 For basic testing in a browser, format Mulu API searches as standard HTTP URLs:
@@ -62,7 +62,7 @@ For basic testing in a browser, format Mulu API searches as standard HTTP URLs:
     https://api.mulu.me/2/mention/search?apiKey=APIKEY&documentUrlPrefix=http://www.example.com/
 
 Parameter values typically contain characters not permitted in query parameters, such as
-ampersand, spaces, and other special characters. You must
+ampersand, space, and other special characters. You must
 [URL&nbsp;encode](http://tools.ietf.org/html/rfc3986#section-2.1) all query parameters.
 
 
@@ -246,7 +246,7 @@ product mention JSON object. All field types are text values.
 |:---+:---|
 | `documentUrl` | The complete URL of the published document where Mulu found the product mention, including the URI scheme. |
 | `title` | Title of the published document. |
-| `modifiedDate` | _Date in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format_. The most recent date Mulu found this product mention. |
+| `modifiedDate` | _Date in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format_. The most recent date when Mulu fetched the document for the first time or found the content at the document URL changed. |
 
 For example:
 
