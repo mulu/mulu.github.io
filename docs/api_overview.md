@@ -71,19 +71,18 @@ ampersand, space, and other special characters. You must
 Provide the `apiKey` parameter and at least one other search parameter. All field types are text
 values unless otherwise specified.
 
-
 | Name | Required?&nbsp;&nbsp; | Description |
 |:---+:---+:---|
 | `apiKey` | Required | Your Mulu Account API key. To set up a new Mulu account, [contact us](http://mulu.me/contact). |
-| `documentUrlPrefix` | Provide at least one of `documentUrlPrefix` or `offer` | The prefix (first characters) of published document URLs that you want to select. For HTTP URLs, the URL prefix must begin with `http://`. |
-| `offer` | Provide at least one of `documentUrlPrefix` or `offer` | A unique ID for an offer as specified by its offer feed. For example, if the offer came from Amazon, specify an Amazon Standard Identification Number ([ASIN](https://en.wikipedia.org/wiki/Amazon_Standard_Identification_Number)). To search for multiple products, provide the `offer` query parameter multiple times. |
+| `documentUrlPrefix` | Provide at least one of `documentUrlPrefix` or `offerId` | The prefix (first characters) of published document URLs that you want to select. For HTTP URLs, the URL prefix must begin with `http://`. |
+| `offerId` | Provide at least one of `documentUrlPrefix` or `offerId` | A unique ID for an offer as specified by its offer feed. For example, if the offer came from Amazon, specify an Amazon Standard Identification Number ([ASIN](https://en.wikipedia.org/wiki/Amazon_Standard_Identification_Number)). To search for multiple offers, provide this query parameter multiple times. |
 | `minModifiedDate` | Required if you specify `maxModifiedDate` | Date/time in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format. Specify this parameter to limit results to only product mentions found on or after this date. You must include the time zone information. For example, `2014-02-19T00:00:00.0+00:00`. If you set the `maxModifiedDate` parameter, you must also set `minModifiedDate`.|
 | `maxModifiedDate` | Optional | Date/time in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format. Specify this parameter to limit results only to product mentions found on or before this date. You must include the time zone information. For example, `2014-02-19T00:00:00.0+00:00`. If you set the `maxModifiedDate` parameter, you must also set `minModifiedDate`. |
 | `minLexicalSimilarityScore` | Optional | Floating point number from 0 to 1. Specify a minimum lexical similarity score value. To get more results from the Mulu API, specify a lower minimum value. If unspecified, the default is 0.8. |
 | `minProductBrandScore` | Optional | Floating point number from 0 to 1. Specify a minimum product brand score value. To get more results from the Mulu API, specify a lower minimum value. If unspecified, the default is 0. |
 | `minProductCategoryScore` | Optional | Floating point number from 0 to 1. Specify a minimum product category score value. To get more results from the Mulu API, specify a lower minimum value. If unspecified, the default is 0. |
 | `minProductTypeScore` | Optional | Floating point number from 0 to 1. Specify a minimum product type score value. To get more results from the Mulu API, specify a lower minimum value. If unspecified, the default is 0. |
-| `offerFeed` | Optional | Specify an offer feed ID to limit results to only a specific offer feed. Offer feed IDs are case-sensitive. For example, for offers from eBay, set to `EBAY`. To search multiple offer feeds, provide this query parameter multiple times. If `offerFeed` is unspecified, Mulu API searches the default set of offer feeds for your Mulu Account API key.  If you provide multiple offer feeds and also provide the `offer` parameter, the same `offer` ID could potentially be found in multiple offer feeds. In practice, duplicates are unlikely because offer feeds use different syntax for offer&nbsp;IDs. |
+| `offerFeed` | Optional | Specify an offer feed ID to limit results to only a specific offer feed. Offer feed IDs are case-sensitive. For example, for offers from eBay, set to `EBAY`. To search multiple offer feeds, provide this query parameter multiple times. If `offerFeed` is unspecified, Mulu API searches the default set of offer feeds for your Mulu Account API key.  If you provide multiple offer feeds and also provide the `offerId` parameter, the same offer ID could potentially be found in multiple offer feeds. In practice, duplicates are unlikely because offer feeds use different syntax for offer&nbsp;IDs. |
 | `productCategory` | Optional | Specify a required product category as defined by the offer feed. For example, `Clothing` or `Beauty`. If unspecified, the results include all product categories. |
 
 
@@ -141,45 +140,45 @@ Return product mentions for a specific publisher for products in categories `Cos
 
 To search for an offer, provide the offer ID as specified by its offer feed.
 
-Return product mentions for the offer `SKU123` from _any_ product source:
+Return product mentions for the offer ID `SKU123` from _any_ offer feed:
 
     GET /2/mention/search?apiKey=ExampleAPIKey
-                         &offer=SKU123
+                         &offerId=SKU123
 
 Note that in practice, the major retailers use different style offer IDs, so an offer ID tends to
 appear in at most one offer feed. However, you can specify an offer feed.
 
-Return product mentions for the offer `SKU123` from offer feed `MYSTORE`:
+Return product mentions for the offer ID `SKU123` from offer feed `MYSTORE`:
 
     GET /2/mention/search?apiKey=ExampleAPIKey
-                         &offer=SKU123
+                         &offerId=SKU123
                          &offerFeed=MYSTORE
 
-Return product mentions for offers `SKU123` or `SKU456` from offer feed `MYSTORE`:
+Return product mentions for offer IDs `SKU123` or `SKU456` from offer feed `MYSTORE`:
 
     GET /2/mention/search?apiKey=ExampleAPIKey
-                         &offer=SKU123
-                         &offer=SKU456
+                         &offerId=SKU123
+                         &offerId=SKU456
                          &offerFeed=MYSTORE
 
-Return product mentions from a specific publisher for offer `SKU123` from offer feed `MYSTORE`
+Return product mentions from a specific publisher for offer ID `SKU123` from offer feed `MYSTORE`
 
     GET /2/mention/search?apiKey=ExampleAPIKey
                          &documentUrlPrefix=http://www.example.com/
-                         &offer=SKU123
+                         &offerId=SKU123
                          &offerFeed=MYSTORE
 
 
 #### Date Searches
 
-Return product mentions for the offer `SKU123` from offer feed `MYSTORE` only if found
+Return product mentions for the offer ID `SKU123` from offer feed `MYSTORE` only if found
 between midnight January 1, 2014 and July 1, 2014 in a specific time zone:
 
     GET /2/mention/search?apiKey=ExampleAPIKey
-                         &offer=SKU123
+                         &offerId=SKU123
                          &offerFeed=MYSTORE
-                         &minModifiedDate=2014-01-01T00:00:00.000-07:00
-                         &maxModifiedDate=2014-07-01T00:00:00.000-07:00
+                         &minModifiedDate=2014-01-01T00:00:00-07:00
+                         &maxModifiedDate=2014-07-01T00:00:00-07:00
 
 
 ## Understanding the JSON Response
@@ -268,9 +267,9 @@ always exist as JSON fields but some may be unpopulated (see second column for d
 |:---+:---+:---|
 | `offerUrl` | yes | A URL to purchase the product. This URL is not necessarily on the same domain as the offer feed. |
 | `offerFeed` | yes |  Offer feed ID, as determined by Mulu. For example, for eBay, this is `EBAY`. |
-| `offerId` | typically, but not always (see&nbsp;note) | An offer's unique identifier assigned by the offer feed. For example, an Amazon Standard Identification Number ([ASIN](https://en.wikipedia.org/wiki/Amazon_Standard_Identification_Number)). Note: For nearly all cases, `offerId` is populated but in rare cases a retailer includes an `offerUrl` but no `offerId`. |
+| `offerId` | typically, but not always (see&nbsp;note) | An offer's unique identifier assigned by the offer feed. For example, an Amazon Standard Identification Number ([ASIN](https://en.wikipedia.org/wiki/Amazon_Standard_Identification_Number)). Note: This field is usually populated, but in rare cases, a retailer includes an `offerUrl` but no `offerId`. |
 | `currency` | no | Currency code in [ISO&nbsp;4217](https://en.wikipedia.org/wiki/ISO_4217) format for the value in the `price` field. For example, for U.S. Dollars the value is `USD`. |
-| `price` | no | An integer calculated by rounding up the price to the unit currency denomination. For example, if the offer feed provided a price of "$49.99", this field contains the value 50. |
+| `price` | no | An integer calculated by rounding up the price to the currency unit denomination. For example, if the offer feed provided a price of "$49.99", this field contains the value 50. |
 | `productBrand` | no | The product’s brand or manufacturer. For example, `Sony`. |
 | `productCategory` | no |  Product category, for example `Clothing`.  |
 | `productDescription` | no | A description of the product, which may be in plain text or in HTML. |
