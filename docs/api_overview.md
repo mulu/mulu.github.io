@@ -59,7 +59,7 @@ more search criteria.
 
 For basic testing in a browser, format Mulu API searches as standard HTTP URLs:
 
-    https://api.mulu.me/2/mention/search?apiKey=APIKEY&urlPrefix=http://www.example.com/
+    https://api.mulu.me/2/mention/search?apiKey=APIKEY&documentUrlPrefix=http://www.example.com/
 
 Parameter values typically contain characters not permitted in query parameters, such as
 ampersand, spaces, and other special characters. You must
@@ -75,8 +75,8 @@ values unless otherwise specified.
 | Name | Required?&nbsp;&nbsp; | Description |
 |:---+:---+:---|
 | `apiKey` | Required | Your Mulu Account API key. To set up a new Mulu account, [contact us](http://mulu.me/contact). |
-| `urlPrefix` | Provide at least one of `urlPrefix` or `offer` | The prefix (first characters) of publisher URLs that you want to select. For HTTP URLs, the URL prefix text must begin with `http://`. |
-| `offer` | Provide at least one of `urlPrefix` or `offer` | A unique ID for an offer as specified by its offer feed. For example, if the offer came from Amazon, specify an Amazon Standard Identification Number ([ASIN](https://en.wikipedia.org/wiki/Amazon_Standard_Identification_Number)). To search for multiple products, provide the `offer` query parameter multiple times. |
+| `documentUrlPrefix` | Provide at least one of `documentUrlPrefix` or `offer` | The prefix (first characters) of published document URLs that you want to select. For HTTP URLs, the URL prefix must begin with `http://`. |
+| `offer` | Provide at least one of `documentUrlPrefix` or `offer` | A unique ID for an offer as specified by its offer feed. For example, if the offer came from Amazon, specify an Amazon Standard Identification Number ([ASIN](https://en.wikipedia.org/wiki/Amazon_Standard_Identification_Number)). To search for multiple products, provide the `offer` query parameter multiple times. |
 | `minModifiedDate` | Required if you specify `maxModifiedDate` | Date/time in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format. Specify this parameter to limit results to only product mentions found on or after this date. You must include the time zone information. For example, `2014-02-19T00:00:00.0+00:00`. If you set the `maxModifiedDate` parameter, you must also set `minModifiedDate`.|
 | `maxModifiedDate` | Optional | Date/time in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format. Specify this parameter to limit results only to product mentions found on or before this date. You must include the time zone information. For example, `2014-02-19T00:00:00.0+00:00`. If you set the `maxModifiedDate` parameter, you must also set `minModifiedDate`. |
 | `minLexicalSimilarityScore` | Optional | Floating point number from 0 to 1. Specify a minimum lexical similarity score value. To get more results from the Mulu API, specify a lower minimum value. If unspecified, the default is 0.8. |
@@ -98,26 +98,26 @@ are shown with newlines and without parameter URL encoding. For real queries you
 
 Return product mentions for a specific publisher:
 
-    GET /2/mention/search?apiKey=DemoAPIKey
-                         &urlPrefix=http://www.example.com/
+    GET /2/mention/search?apiKey=ExampleAPIKey
+                         &documentUrlPrefix=http://www.example.com/
 
 Return product mentions for a specific publisher but only for URLs under the `article` path:
 
-    GET /2/mention/search?apiKey=DemoAPIKey
-                         &urlPrefix=http://www.example.com/article/
+    GET /2/mention/search?apiKey=ExampleAPIKey
+                         &documentUrlPrefix=http://www.example.com/article/
 
 
 #### Scores
 
 Return product mentions for a specific publisher using default minimum lexical similarity score (0.8):
 
-    GET /2/mention/search?apiKey=DemoAPIKey
-                         &urlPrefix=http://www.example.com/
+    GET /2/mention/search?apiKey=ExampleAPIKey
+                         &documentUrlPrefix=http://www.example.com/
 
 Return product mentions for a specific publisher using custom minimum lexical similarity score:
 
-    GET /2/mention/search?apiKey=DemoAPIKey
-                         &urlPrefix=http://www.example.com/
+    GET /2/mention/search?apiKey=ExampleAPIKey
+                         &documentUrlPrefix=http://www.example.com/
                          &minLexicalSimilarityScore=0.5
 
 
@@ -125,14 +125,14 @@ Return product mentions for a specific publisher using custom minimum lexical si
 
 Return product mentions for a specific publisher where the products are in the `Cosmetics` category
 
-    GET /2/mention/search?apiKey=DemoAPIKey
-                         &urlPrefix=http://www.example.com/
+    GET /2/mention/search?apiKey=ExampleAPIKey
+                         &documentUrlPrefix=http://www.example.com/
                          &productCategory=Cosmetics
 
 Return product mentions for a specific publisher for products in categories `Cosmetics` or `Clothing`
 
-    GET /2/mention/search?apiKey=DemoAPIKey
-                         &urlPrefix=http://www.example.com/
+    GET /2/mention/search?apiKey=ExampleAPIKey
+                         &documentUrlPrefix=http://www.example.com/
                          &productCategory=Cosmetics
                          &productCategory=Clothing
 
@@ -143,7 +143,7 @@ To search for an offer, provide the offer ID as specified by its offer feed.
 
 Return product mentions for the offer `SKU123` from _any_ product source:
 
-    GET /2/mention/search?apiKey=DemoAPIKey
+    GET /2/mention/search?apiKey=ExampleAPIKey
                          &offer=SKU123
 
 Note that in practice, the major retailers use different style offer IDs, so an offer ID tends to
@@ -151,21 +151,21 @@ appear in at most one offer feed. However, you can specify an offer feed.
 
 Return product mentions for the offer `SKU123` from offer feed `MYSTORE`:
 
-    GET /2/mention/search?apiKey=DemoAPIKey
+    GET /2/mention/search?apiKey=ExampleAPIKey
                          &offer=SKU123
                          &offerFeed=MYSTORE
 
 Return product mentions for offers `SKU123` or `SKU456` from offer feed `MYSTORE`:
 
-    GET /2/mention/search?apiKey=DemoAPIKey
+    GET /2/mention/search?apiKey=ExampleAPIKey
                          &offer=SKU123
                          &offer=SKU456
                          &offerFeed=MYSTORE
 
 Return product mentions from a specific publisher for offer `SKU123` from offer feed `MYSTORE`
 
-    GET /2/mention/search?apiKey=DemoAPIKey
-                         &urlPrefix=http://www.example.com/
+    GET /2/mention/search?apiKey=ExampleAPIKey
+                         &documentUrlPrefix=http://www.example.com/
                          &offer=SKU123
                          &offerFeed=MYSTORE
 
@@ -175,7 +175,7 @@ Return product mentions from a specific publisher for offer `SKU123` from offer 
 Return product mentions for the offer `SKU123` from offer feed `MYSTORE` only if found
 between midnight January 1, 2014 and July 1, 2014 in a specific time zone:
 
-    GET /2/mention/search?apiKey=DemoAPIKey
+    GET /2/mention/search?apiKey=ExampleAPIKey
                          &offer=SKU123
                          &offerFeed=MYSTORE
                          &minModifiedDate=2014-01-01T00:00:00.000-07:00
