@@ -52,8 +52,8 @@ compares the score fields in results.
 
 | Result Field | Description |
 |:---+:---|
-| _lexical&nbsp;similarity_ |  Similarity between the words in the product name and the words detected in the published document, as determined by the [Dice coefficient](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient) algorithm. Think of this as the lexical closeness of the product name.
-| _product&nbsp;brand&nbsp;confidence_ |  Score based on (1) the presence of the brand name for the product in the sentence and (2) the likelihood that the brand would appear in normal language.
+| _lexical&nbsp;similarity&nbsp;score_ |  Score measuring the similarity between the words in the product name and the words detected in the published document, based only on the spelling of the words.
+| _product&nbsp;brand&nbsp;score_ |  Score based on (1) the presence of the brand name for the product in the sentence and (2) the likelihood that the brand would appear in normal language.
 | _product&nbsp;category&nbsp;score_ |  Score based on the product category similarity with other product mentions in the same published document. For example, suppose Mulu detects that a web page mentions 10 bicycles and 1 song name. The product mentions for the bicycles have very high category scores because that is the most common product category on the page. The product mention for the song name would have a low category score, which could indicate a false positive for the mention.
 | _product&nbsp;type&nbsp;score_ |  Score based on the generic product type appearing in the published document. The generic product type is the product name with brand names removed.
 {:.table .table-bordered}
@@ -85,8 +85,8 @@ values unless otherwise specified.
 | `apiKey` | Required | Your Mulu Account API key. To set up a new Mulu account, [contact us](http://mulu.me/contact). |
 | `documentUrlPrefix` | Provide at least one of `documentUrlPrefix` or `offerId` | The prefix (first characters) of published document URLs that you want to select. For HTTP URLs, the URL prefix must begin with `http://`. |
 | `offerId` | Provide at least one of `documentUrlPrefix` or `offerId` | A unique ID for an offer as specified by its offer feed. For example, if the offer came from Amazon, specify an Amazon Standard Identification Number ([ASIN](https://en.wikipedia.org/wiki/Amazon_Standard_Identification_Number)). To search for multiple offers, provide this query parameter multiple times. |
-| `minModifiedDate` | Required if you specify `maxModifiedDate` | Date/time in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format. Specify this parameter to limit results to only product mentions found on or after this date. You must include the time zone information. For example, `2014-02-19T00:00:00+00:00`. If you set the `maxModifiedDate` parameter, you must also set `minModifiedDate`.|
-| `maxModifiedDate` | Optional | Date/time in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format. Specify this parameter to limit results only to product mentions found on or before this date. You must include the time zone information. For example, `2014-02-19T00:00:00+00:00`. If you set the `maxModifiedDate` parameter, you must also set `minModifiedDate`. |
+| `minModifiedDate` | Required if you specify `maxModifiedDate` | Date/time in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. Specify this parameter to limit results to only product mentions found on or after this date. You must include the time zone information. For example, `2014-02-19T00:00:00+00:00`. If you set the `maxModifiedDate` parameter, you must also set `minModifiedDate`.|
+| `maxModifiedDate` | Optional | Date/time in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. Specify this parameter to limit results only to product mentions found on or before this date. You must include the time zone information. For example, `2014-02-19T00:00:00+00:00`. If you set the `maxModifiedDate` parameter, you must also set `minModifiedDate`. |
 | `minLexicalSimilarityScore` | Optional | Floating point number from 0 to 1. Specify a minimum lexical similarity score value. To get more results from the Mulu API, specify a lower minimum value. If unspecified, the default is 0.8. |
 | `minProductBrandScore` | Optional | Floating point number from 0 to 1. Specify a minimum product brand score value. To get more results from the Mulu API, specify a lower minimum value. If unspecified, the default is 0. |
 | `minProductCategoryScore` | Optional | Floating point number from 0 to 1. Specify a minimum product category score value. To get more results from the Mulu API, specify a lower minimum value. If unspecified, the default is 0. |
@@ -259,7 +259,7 @@ product mention JSON object. All field types are text values.
 |:---+:---|
 | `documentUrl` | The complete URL of the published document where Mulu found the product mention, including the URI scheme. |
 | `title` | Title of the published document. |
-| `modifiedDate` | _Date in [ISO8601](http://en.wikipedia.org/wiki/ISO_8601) format_. The most recent date when Mulu fetched the document for the first time or found the content at the document URL changed. |
+| `modifiedDate` | _Date in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format_. The most recent date when Mulu fetched the document for the first time or found the content at the document URL changed. |
 {:.table .table-bordered}
 
 For example:
@@ -285,7 +285,7 @@ always exist as JSON fields but some may be unpopulated (see second column for d
 | `offerUrl` | yes | A URL to purchase the product. This URL is not necessarily on the same domain as the offer feed. |
 | `offerFeed` | yes |  Offer feed ID, as determined by Mulu. For example, for eBay, this is `EBAY`. |
 | `offerId` | typically, but not always (see&nbsp;note) | An offer's unique identifier assigned by the offer feed. For example, an Amazon Standard Identification Number ([ASIN](https://en.wikipedia.org/wiki/Amazon_Standard_Identification_Number)). Note: This field is usually populated, but in rare cases, a retailer includes an `offerUrl` but no `offerId`. |
-| `currency` | no | Currency code in [ISO&nbsp;4217](https://en.wikipedia.org/wiki/ISO_4217) format for the value in the `price` field. For example, for U.S. Dollars the value is `USD`. |
+| `currency` | no | Currency code in [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) format for the value in the `price` field. For example, for U.S. Dollars the value is `USD`. |
 | `price` | no | An integer calculated by rounding up the price to the currency unit denomination. For example, if the offer feed provided a price of "$49.99", this field contains the value 50. |
 | `productBrand` | no | The product’s brand or manufacturer. For example, `Sony`. |
 | `productCategory` | no |  Product category, for example `Clothing`.  |

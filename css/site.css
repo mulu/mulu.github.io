@@ -26,3 +26,9 @@ body {
 .navbar-brand img {
   max-height: 50px;
 }
+
+code {
+  background-color: transparent;
+  border-style: none;
+  padding: 0;
+}
