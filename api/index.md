@@ -202,8 +202,9 @@ vendor LightingOnline, reviewed by magazine LampReviews.com.
 {% highlight json %}
 [
   {
+    "phrase": "LampCo stained glass lamp",
     "sentence": "I love my red LampCo stained glass lamp!",
-    "excerpt": "My place looks great! I love my red LampCo stained glass lamp! yay!",
+    "excerpt": "My place looks great! I love my red LampCo stained glass lamp! Yay!",
     "lexicalSimilarityScore": 0.5,
     "productBrandScore": 1.0,
     "productCategoryScore": 0.6,
@@ -239,6 +240,7 @@ specified. All of the fields in a product mention JSON object are always populat
 
 | Field | Description |
 |:---+:---+:---|
+| `phrase` | Phrase in the published document that mentions the product. |
 | `sentence` | The published document sentence that mentions the product. |
 | `excerpt` | The published document excerpt that mentions the product. The excerpt consists of several sentences before and after the product mention. This is the longest data field with text from the published document. |
 | `lexicalSimilarityScore` | _Floating point number from 0 to 1._  Similarity of (1) the product name and (2) text in the published document. See [Scores](#scores).|
