@@ -85,8 +85,8 @@ values unless otherwise specified.
 | `apiKey` | Required | Your Mulu Account API key. To set up a new Mulu account, [contact us](http://mulu.me/contact). |
 | `documentUrlPrefix` | Provide at least one of `documentUrlPrefix` or `offerId` | The prefix (first characters) of published document URLs that you want to select. For HTTP URLs, the URL prefix must begin with `http://`. |
 | `offerId` | Provide at least one of `documentUrlPrefix` or `offerId` | A unique ID for an offer as specified by its offer feed. For example, if the offer came from Amazon, specify an Amazon Standard Identification Number ([ASIN](https://en.wikipedia.org/wiki/Amazon_Standard_Identification_Number)). To search for multiple offers, provide this query parameter multiple times. |
-| `minModifiedDate` | Required if you specify `maxModifiedDate` | Date/time in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. Specify this parameter to limit results to only product mentions found on or after this date. You must include the time zone information. For example, `2014-02-19T00:00:00+00:00`. If you set the `maxModifiedDate` parameter, you must also set `minModifiedDate`.|
-| `maxModifiedDate` | Optional | Date/time in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. Specify this parameter to limit results only to product mentions found on or before this date. You must include the time zone information. For example, `2014-02-19T00:00:00+00:00`. If you set the `maxModifiedDate` parameter, you must also set `minModifiedDate`. |
+| `minModifiedDate` | Optional | Date/time in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. Specify this parameter to limit results to only product mentions found on or after this date. You must include the time zone information. For example, `2014-02-19T00:00:00-08:00`. |
+| `maxModifiedDate` | Optional | Date/time in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. Specify this parameter to limit results only to product mentions found on or before this date. You must include the time zone information. For example, `2014-02-19T00:00:00-08:00`. |
 | `minLexicalSimilarityScore` | Optional | Floating point number from 0 to 1. Specify a minimum lexical similarity score value. To get more results from the Mulu API, specify a lower minimum value. If unspecified, the default is 0.8. |
 | `minProductBrandScore` | Optional | Floating point number from 0 to 1. Specify a minimum product brand score value. To get more results from the Mulu API, specify a lower minimum value. If unspecified, the default is 0. |
 | `minProductCategoryScore` | Optional | Floating point number from 0 to 1. Specify a minimum product category score value. To get more results from the Mulu API, specify a lower minimum value. If unspecified, the default is 0. |
@@ -187,8 +187,8 @@ between midnight January 1, 2014 and July 1, 2014 in a specific time zone:
     GET /2/mention/search?apiKey=ExampleAPIKey
                          &offerId=SKU123
                          &offerFeed=MYSTORE
-                         &minModifiedDate=2014-01-01T00:00:00-07:00
-                         &maxModifiedDate=2014-07-01T00:00:00-07:00
+                         &minModifiedDate=2014-01-01T00:00:00-08:00
+                         &maxModifiedDate=2014-07-01T00:00:00-08:00
 
 
 ## Understanding the JSON Response
@@ -212,7 +212,7 @@ vendor LightingOnline, reviewed by magazine LampReviews.com.
     "document": {
       "documentUrl": "http://lampreviews.com/articles/best_red_lamps_of_2014",
       "title": "Best Red Lamps of 2014",
-      "modifiedDate": "2014-01-11T00:00:00.000-07:00"
+      "modifiedDate": "2014-02-19T00:00:00-08:00"
     },
     "offer": {
       "offerUrl": "http://lightingonline.com/products/red_stained_glass_lampco",
@@ -270,7 +270,7 @@ For example:
 {
   "documentUrl": "http://lampreviews.com/articles/best_red_lamps_of_2014",
   "title": "Best Red Lamps of 2014",
-  "modifiedDate": "2014-01-11T00:00:00.000-07:00"
+  "modifiedDate": "2014-02-19T00:00:00-08:00"
 }
 {% endhighlight %}
 
